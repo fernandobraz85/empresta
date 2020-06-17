@@ -24,6 +24,10 @@ class CreditoController extends Controller
         $ret = [];
 
         try{
+            //verificando se informou o valor do emprestimo
+            if(!isset($data['valor_emprestimo']))
+                return ['Status'=>'Erro','Message'=>'Valor do empréstimo é obrigatório'];
+
             //se nao houver parametro "instituicoes" pega todas do arquivo json
             if(!isset($data['instituicoes'])){
                 foreach($this->instituicoes as $inst){            
@@ -38,6 +42,7 @@ class CreditoController extends Controller
                 }
             }
             
+            //percorrendo instituicoes para exibir dados
             foreach($data['instituicoes'] as $instituicao){
                 $taxas_inst = array_filter($this->taxas, function($obj) use ($instituicao) {
                     if($obj->instituicao == $instituicao)
